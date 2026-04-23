@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PANDA TOURS AND ADVENTURES</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00b894;
+            --accent: #ff9f1c;
+            --dark: #2d3436;
+            --light: #f8f9fa;
+            --text: #2d3436;
+        }
+
+        [data-theme="dark"] {
+            --dark: #121212;
+            --light: #1e1e1e;
+            --text: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] .navbar {
+            background: rgba(30,30,30,0.95);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .theme-btn {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://source.unsplash.com/random/1600x900/?kenya-rift-valley,safari') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .section {
+            padding: 100px 5%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .tour-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tour-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        [data-theme="dark"] .tour-card {
+            background: #2d3436;
+            color: white;
+        }
+
+        .tour-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* 16:9 Image Container */
+        .tour-card .image-container {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 ratio = 9/16 * 100% */
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .tour-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .tour-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .tour-card-content {
+            padding: 1.5rem;
+        }
+
+        .tour-card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.4s;
+        }
+
+        .gallery-item img:hover {
+            transform: scale(1.05);
+        }
+
+        .booking-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] .booking-form {
+            background: #2d3436;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        [data-theme="dark"] .form-group input,
+        [data-theme="dark"] .form-group select,
+        [data-theme="dark"] .form-group textarea {
+            background: #1e1e1e;
+            border-color: #555;
+            color: white;
+        }
+
+        .note {
+            text-align: center;
+            margin-top: 2rem;
+            font-style: italic;
+            color: #666;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            left: 20px;
+            bottom: 30px;
+            z-index: 9999;
+        }
+
+        .whatsapp-float a {
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s;
+        }
+
+        .whatsapp-float a:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-paw"></i> PANDA TOURS AND ADVENTURES
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">HOME</a></li>
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#destinations">DESTINATIONS</a></li>
+            <li><a href="#gallery">GALLERY</a></li>
+            <li><a href="#book">BOOK NOW</a></li>
+        </ul>
+        <button id="theme-toggle" class="theme-btn" title="Toggle Dark/Light Mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>EPIC ADVENTURES AWAIT</h1>
+            <p class="tagline">Rift Valley escapes for the young & bold — wild vibes, hikes, lakes & freedom</p>
+            <a href="#book" class="btn-primary">START YOUR ADVENTURE</a>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>WHO WE ARE</h2>
+            <p>PANDA TOURS AND ADVENTURES creates unforgettable, high-energy experiences around Nakuru and the Kenyan Rift Valley. Perfect for youthful explorers who want flamingos, volcanoes, hikes, and real wild Kenyan vibes — with fun, freedom, and zero boring stuff.</p>
+        </div>
+    </section>
+
+    <!-- Destinations with 16:9 Preview Images -->
+    <section id="destinations" class="section">
+        <div class="container">
+            <h2>OUR DESTINATIONS</h2>
+            <div class="tour-grid">
+                <div class="tour-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x450/?lake-nakuru,flamingo" alt="Lake Nakuru">
+                    </div>
+                    <div class="tour-card-content">
+                        <h3>LAKE NAKURU</h3>
+                        <p>Famous flamingos, rhinos & thrilling game drives</p>
+                    </div>
+                </div>
+                <div class="tour-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x450/?castle,fortress,egerton" alt="Lord Egerton Castle">
+                    </div>
+                    <div class="tour-card-content">
+                        <h3>LORD EGERTON CASTLE</h3>
+                        <p>Historic fortress with a legendary love story</p>
+                    </div>
+                </div>
+                <div class="tour-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x450/?lake-baringo,hot-springs,birds" alt="Lakes Baringo & Bogoria">
+                    </div>
+                    <div class="tour-card-content">
+                        <h3>LAKES BARINGO & BOGORIA</h3>
+                        <p>Bird paradise, hot springs & exciting boat rides</p>
+                    </div>
+                </div>
+                <div class="tour-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x450/?lake-elementaita,wildlife" alt="Lake Elementaita">
+                    </div>
+                    <div class="tour-card-content">
+                        <h3>LAKE ELEMENTAITA</h3>
+                        <p>Peaceful soda lake with stunning wildlife views</p>
+                    </div>
+                </div>
+                <div class="tour-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x450/?mount-longonot,volcano,hike" alt="Mount Longonot">
+                    </div>
+                    <div class="tour-card-content">
+                        <h3>MOUNT LONGONOT</h3>
+                        <p>Challenging volcano hike with epic crater rim views</p>
+                    </div>
+                </div>
+                <div class="tour-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x450/?lake-naivasha,hippo,boat" alt="Lake Naivasha">
+                    </div>
+                    <div class="tour-card-content">
+                        <h3>LAKE NAIVASHA</h3>
+                        <p>Hippos, boat rides & fresh water adventure</p>
+                    </div>
+                </div>
+                <div class="tour-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x450/?hyrax-hill,prehistoric,kenya" alt="Hyrax Hill">
+                    </div>
+                    <div class="tour-card-content">
+                        <h3>HYRAX HILL</h3>
+                        <p>Ancient prehistoric site & fascinating museum</p>
+                    </div>
+                </div>
+                <div class="tour-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x450/?menengai-crater,volcano,kenya" alt="Menengai Crater">
+                    </div>
+                    <div class="tour-card-content">
+                        <h3>MENENGAI CRATER</h3>
+                        <p>Massive volcanic caldera with breathtaking panoramas</p>
+                    </div>
+                </div>
+            </div>
+            <p class="note">*Exact packages & pricing depend on your group size and preferences — revealed instantly on WhatsApp.</p>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="section">
+        <div class="container">
+            <h2>ADVENTURE SNAPS</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="https://source.unsplash.com/random/800x450/?lake-nakuru,flamingo" alt="Lake Nakuru"></div>
+                <div class="gallery-item"><img src="https://source.unsplash.com/random/800x450/?volcano,hike" alt="Mount Longonot"></div>
+                <div class="gallery-item"><img src="https://source.unsplash.com/random/800x450/?crater" alt="Menengai Crater"></div>
+                <div class="gallery-item"><img src="https://source.unsplash.com/random/800x450/?flamingo" alt="Flamingos"></div>
+                <div class="gallery-item"><img src="https://source.unsplash.com/random/800x450/?kenya-wildlife" alt="Rift Valley Wildlife"></div>
+                <div class="gallery-item"><img src="https://source.unsplash.com/random/800x450/?lake,boat" alt="Lake Naivasha"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form -->
+    <section id="book" class="section booking">
+        <div class="container">
+            <h2>BOOK YOUR ADVENTURE</h2>
+            <form id="booking-form" class="booking-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="name" required placeholder="Your full name">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Preferred Destination</label>
+                    <select id="destination" required>
+                        <option value="">Choose a destination...</option>
+                        <option value="Lake Nakuru">Lake Nakuru</option>
+                        <option value="Lord Egerton Castle">Lord Egerton Castle</option>
+                        <option value="Lakes Baringo & Bogoria">Lakes Baringo & Bogoria</option>
+                        <option value="Lake Elementaita">Lake Elementaita</option>
+                        <option value="Mount Longonot">Mount Longonot</option>
+                        <option value="Lake Naivasha">Lake Naivasha</option>
+                        <option value="Hyrax Hill">Hyrax Hill</option>
+                        <option value="Menengai Crater">Menengai Crater</option>
+                        <option value="Custom">Custom Multi-Destination Adventure</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Number of People</label>
+                    <input type="number" id="people" min="1" required placeholder="How many in your crew?">
+                </div>
+                <div class="form-group">
+                    <label>Message / Vibe</label>
+                    <textarea id="message" rows="4" placeholder="Hiking? Photography? Chilling by the lake? Tell us your vibe..."></textarea>
+                </div>
+                <button type="submit" class="btn-primary">SEND TO WHATSAPP</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Floating WhatsApp (Left Side) -->
+    <div class="whatsapp-float">
+        <a href="https://wa.me/254743363625" target="_blank" title="Chat on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <script>
+        // Dark/Light Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme');
+
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+
+        // Booking Form → WhatsApp
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('date').value;
+            const people = document.getElementById('people').value;
+            const message = document.getElementById('message').value.trim() || "No extra message";
+
+            const whatsappText = `Hello Panda Tours!%0A%0A` +
+                                 `Name: ${name}%0A` +
+                                 `Email: ${email}%0A` +
+                                 `Destination: ${destination}%0A` +
+                                 `Preferred Date: ${date}%0A` +
+                                 `Number of People: ${people}%0A` +
+                                 `Message: ${message}%0A%0A` +
+                                 `Please send me the exact package details and pricing based on our group.`;
+
+            window.open(`https://wa.me/254743363625?text=${whatsappText}`, '_blank');
+        });
+    </script>
+</body>
+</html>
